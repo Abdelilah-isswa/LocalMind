@@ -3,12 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\FavoriteController;
 
-/*
-|--------------------------------------------------------------------------
-| Auth
-|--------------------------------------------------------------------------
-*/
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -17,27 +13,15 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-/*
-|--------------------------------------------------------------------------
-| Home
-|--------------------------------------------------------------------------
-*/
+
 Route::get('/', [QuestionController::class, 'home'])->name('home');
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard
-|--------------------------------------------------------------------------
-*/
+
 Route::get('/dashboard', function () {
     return 'Welcome ' . auth()->user()->name;
 })->middleware('auth');
 
-/*
-|--------------------------------------------------------------------------
-| Questions (Authenticated Users)
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/my-questions', [QuestionController::class, 'myQuestions'])
@@ -77,4 +61,20 @@ Route::middleware('auth')->group(function () {
 
     // Delete comment
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
+});
+Route::middleware('auth')->group(function () {
+    Route::post('/questions/{question}/favorite', [FavoriteController::class, 'toggle'])
+         ->name('questions.favorite');
+});
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+    // Favorite toggle
+    Route::post('/questions/{question}/favorite', [FavoriteController::class, 'toggle'])->name('questions.favorite');
+
+    // Favorite list page
+    Route::get('/questions/favorites', [FavoriteController::class, 'index'])->name('questions.favorites');
 });
