@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
 
     // Favorite list page
     Route::get('/questions/favorites', [FavoriteController::class, 'index'])->name('questions.favorites');
-qqW
+
 
 
 });
