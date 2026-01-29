@@ -106,15 +106,17 @@ class QuestionController extends Controller
 
         return redirect()->route('questions.mine')->with('success', 'Question updated!');
     }
-    public function destroy(Question $question)
+public function destroy(Question $question)
 {
-    // Only the owner can delete
-    if ($question->user_id !== auth()->id()) {
+    $user = auth()->user();
+
+    // Admin can delete any question; user can delete only their own
+    if ($user->role !== 'admin' && $question->user_id !== $user->id) {
         abort(403, 'Unauthorized');
     }
 
     $question->delete();
 
-    return redirect()->route('questions.mine')->with('success', 'Question deleted!');
+    return back()->with('success', 'Question deleted successfully.');
 }
 }
