@@ -26,5 +26,9 @@ class Question extends Model
 {
     return $this->hasMany(Comment::class);
 }
-
+public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorites')
+                ->withTimestamps();
+}
 }
