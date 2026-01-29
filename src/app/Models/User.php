@@ -26,6 +26,10 @@ public function isAdmin(): bool
 {
     return $this->role === 'admin';
 }
-
+public function favoriteQuestions()
+{
+    return $this->belongsToMany(Question::class, 'favorites')
+                ->withTimestamps();
+}
 
 }
