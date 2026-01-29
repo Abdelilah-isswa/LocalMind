@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentController extends Controller
 {
-    // Store new comment
+     use AuthorizesRequests;
     public function store(Request $request, Question $question)
     {
         $request->validate([
@@ -43,15 +44,23 @@ class CommentController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->back()->with('success', 'Comment updated!');
+        return redirect()->route('home') 
+                     ->with('success', 'Comment updated!');
     }
 
     // Delete comment
-    public function destroy(Comment $comment)
-    {
-        $this->authorize('delete', $comment);
-        $comment->delete();
+public function destroy(Comment $comment)
+{
+    $user = auth()->user();
 
-        return redirect()->back()->with('success', 'Comment deleted!');
+    // Admin can delete any comment; user can delete only their own
+    if ($user->role !== 'admin' && $comment->user_id !== $user->id) {
+        abort(403, 'Unauthorized');
     }
+
+    $comment->delete();
+
+    return back()->with('success', 'Comment deleted successfully.');
+}
+
 }
