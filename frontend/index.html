@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalMind</title>
+    <!-- Vue 3 & Vue Router from CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="src/assets/style.css">
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- 1. API Service -->
+    <script src="src/services/api.js"></script>
+
+    <!-- 2. Components (loaded before views that use them) -->
+    <script src="src/components/Navbar.js"></script>
+    <script src="src/components/SearchBar.js"></script>
+    <script src="src/components/QuestionCard.js"></script>
+    <script src="src/components/CommentForm.js"></script>
+    <script src="src/components/CreateQuestionForm.js"></script>
+
+    <!-- 3. Views (loaded before router that uses them) -->
+    <script src="src/views/LoginView.js"></script>
+    <script src="src/views/HomeView.js"></script>
+
+    <!-- 4. Router (loaded before app.js) -->
+    <script src="src/router.js"></script>
+
+    <!-- 5. Main App (loaded last) -->
+    <script src="src/app.js"></script>
+</body>
+</html>

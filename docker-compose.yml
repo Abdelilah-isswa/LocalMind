@@ -16,7 +16,7 @@ services:
 
   web:
     image: nginx:stable-alpine
-    container_name: laravel_web
+    container_name: laravel_webb
     ports:
       - "8000:80"
     volumes:
@@ -29,7 +29,7 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: laravel_postgres
+    container_name: laravel_postgress
     environment:
       POSTGRES_DB: laravel_db
       POSTGRES_USER: laravel_user
